@@ -1,5 +1,8 @@
+require "pry"
+
 class Blog
 	def initialize
+		@current_page = 0
 		@posts = []
 	end
 
@@ -19,12 +22,29 @@ class Blog
 	end
 
 	def publish_front_page
-		@posts.each do |post|
-			if post.sponsored == "y"
-				puts "********* #{post.title} ***********  \n" + post.text + " " + post.date
-			else
-				puts post.title + "\n" + post.text + " " + post.date
+		page = @posts.each_slice(3).to_a
+			page[@current_page].each do |post|
+					if post.sponsored == "y"
+						puts "***** #{post.title} ******" + post.text
+					else
+						puts post.title + post.text
+					end
 			end
+		puts "************"
+		puts " 1    2     3  next or previous?"
+		choice = gets.chomp
+		select_next_action(choice)
+	end	
+
+	def select_next_action(choice)
+		if choice.downcase == "next"
+			system"clear"
+			@current_page = @current_page +1
+			publish_front_page
+		elsif choice.downcase == "previous"
+			system"clear"
+			@current_page -= 1
+			publish_front_page
 		end
 	end
 end
@@ -40,9 +60,13 @@ class Post
 end
 
 blog = Blog.new
-blog.add_post Post.new("Tercera ", "08/25/2015", "Aqui estamos", "0")
-blog.add_post Post.new("Segunda ", "08/30/2015", "Este deberia ser el segundo", "0")
-blog.add_post Post.new("Primera ", "08/31/2015", "Este deberia ser el primero", "0")
-blog.add_post Post.new("Cuarto", "05/05/2015", "Estoy sponsorizado!", "y")
+blog.add_post Post.new("Uno ", "08/25/2015", "blabla", "0")
+blog.add_post Post.new("Dos ", "08/30/2015", "blabla", "0")
+blog.add_post Post.new("Tres ", "08/31/2015", "blabla", "0")
+blog.add_post Post.new("Cuarto ", "05/05/2015", " blabla", "y")
+blog.add_post Post.new("Cinco ", "05/05/2015", "blabla", "0")
+blog.add_post Post.new("Seis ", "05/05/2015", "blabla", "0")
+blog.add_post Post.new("Siete ", "05/05/2015", "blabla", "0")
+blog.add_post Post.new("Ocho ", "05/05/2015", "blabla", "0")
 
 blog.create_front_page
