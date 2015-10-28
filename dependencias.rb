@@ -1,4 +1,4 @@
-require "pry"
+#falta poner la camara del laptop como booleana
 
 module Camera
 	def make_photo
@@ -68,8 +68,9 @@ class SmartWatch < Device
 end
 
 class Laptop < Device
-	def initialize(os, screen, print)
+	def initialize(os, screen, print, touchable)
 		super(os, screen, print)
+		@touchable = touchable
 	end
 
 	def show_time
@@ -103,7 +104,7 @@ juan = agenda.add_contact("juan")
 iphone.call("pepe")
 agenda.show_contacts
 
-hours = [Phone.new("android", "5", "yes", "agenda"), SmartWatch.new("android", "5", "yes"), Laptop.new("android", "5", "yes"), Microwave.new()]
+hours = [Phone.new("android", "5", "yes", "agenda"), SmartWatch.new("android", "5", "yes"), Laptop.new("android", "5", "yes", false), Microwave.new()]
 hours.each do |device|
 	puts device.show_time
 end
